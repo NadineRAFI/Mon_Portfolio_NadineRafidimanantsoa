@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Memory</title>
+  <style>
+    body { font-family: Arial; text-align: center; background:#111; color:white; }
+    #board { 
+      display: grid; 
+      grid-template-columns: repeat(3, 80px); 
+      gap: 10px; 
+      justify-content:center; 
+      margin-top:20px; 
+    }
+    .card { 
+      width:80px; height:80px; 
+      background:#00d1c7; 
+      display:flex; align-items:center; justify-content:center; 
+      font-size:30px; cursor:pointer; 
+      border-radius:8px; 
+    }
+    .hidden { background:#00d1c7; color:transparent; }
+    .shown { background:#fff; color:#111; }
+    #message { margin-top:15px; font-size:22px; font-weight:bold; color:#00d1c7; }
+    #resetBtn { margin-top:15px; padding:8px 15px; background:#00d1c7; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+    #resetBtn:hover { background:#009f94; }
+  </style>
+</head>
+<body>
+
+<h2>🧠 Mini Memory</h2>
+<div id="board"></div>
+<p id="message"></p>
+<button id="resetBtn">🔄 Rejouer</button>
+
+<script>
+  const symbols = ["🍎","🍌","🍇"];
+  let cards = [];
+  let flipped = [];
+  let matchedCount = 0;
+
+  const board = document.getElementById("board");
+  const message = document.getElementById("message");
+  const resetBtn = document.getElementById("resetBtn");
+
+  function initGame(){
+    // Réinitialiser
+    board.innerHTML = "";
+    message.textContent = "";
+    flipped = [];
+    matchedCount = 0;
+
+    // Mélanger les cartes
+    cards = [...symbols, ...symbols].sort(() => Math.random()-0.5);
+
+    // Créer les cartes
+    cards.forEach(sym => {
+      let c = document.createElement("div");
+      c.className="card hidden";
+      c.textContent = sym;
+      c.onclick = () => flipCard(c);
+      board.appendChild(c);
+    });
+  }
+
+  function flipCard(card){
+    if(card.classList.contains("shown") || flipped.length===2) return;
+
+    card.classList.remove("hidden");
+    card.classList.add("shown");
+    flipped.push(card);
+
+    if(flipped.length===2){
+      let [c1,c2] = flipped;
+      if(c1.textContent!==c2.textContent){
+        setTimeout(()=>{
+          c1.classList.remove("shown"); c1.classList.add("hidden");
+          c2.classList.remove("shown"); c2.classList.add("hidden");
+        },800);
+      } else {
+        matchedCount++;
+        if(matchedCount === symbols.length){
+          message.textContent = "🎉 Bravo, vous avez gagné !";
+        }
+      }
+      flipped=[];
+    }
+  }
+
+  resetBtn.onclick = initGame;
+
+  // Lancer au début
+  initGame();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Mon Portfolio </title>
+    <link rel="stylesheet" href="style.css">
+
+<body>
+    <header>
+        <nav class="barreheader">
+            <div class="identity">
+                <span class="nom">RAFIDIMANANTSOA</span> <span class="prenom">HOBY NANTENAINA NADINE</span>
+            </div>
+            <ul class="navigation">
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#projet">Projets</a></li>
+                <li><a href="#competences">Compétences</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Section Accueil -->
+    <section id="accueil" class="accueil_class">
+        <div class="section1">
+            <p>Je suis <span class="name_accueil">Hoby Nantenaina Nadine</span>, Développeur en devenir</p>
+            <p>passionnée par le web et le design !</p>
+            <a href="#projet" class="bouton">Voir mes projets</a>
+        </div>
+        <div class="image-acc">
+            <img src="assets/photo_accueil.png">
+        </div>
+    </section>
+
+
+    <!-- Section A propos -->
+    <section id="about" class="about_class">
+        <h2>À propos</h2>
+        <div class="section2">
+            <div class="para">
+                <p>Je m'appelle <span class="about_name">RAFIDIMANANTSOA </span>passionnée par la<br> création
+                    de sites web modernes et interactifs.</p>
+                <p>Je suis actuellement étudiante en <span class="about_name">développement web</span>,<br> et
+                    je cherche à améliorer mes compétences en JavaScript, HTML et CSS.</p>
+                <p>J’adore transformer mes idées en projets concrets<br> et expérimenter avec les nouvelles
+                    technologies.</p>
+                <a href="assets/CV_RN.pdf" class="bouton2">Télécharger mon CV</a>
+            </div>
+            <div class="image-about">
+                <img src="assets/photo_about.JPG" class="pdp">
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Section Mes projets -->
+    <section id="projet" class="projet_class">
+        <h3>Mes Projets</h3>
+        <div class="section3">
+            <div class="minibloc">
+                <p>Un mini-jeu interactif en JavaScript<br> qui stimule votre mémoire.</p>
+                <p class="code">#html,#css,#js</p>
+                <a href="projet1.html" class="bouton3">Voir</a>
+            </div>
+            <div class="minibloc">
+                <p>Un mini-jeu interactif en JavaScript<br> qui teste votre intuition.</p>
+                <p class="code">#html,#css,#js</p>
+                <a href="projet2.html" class="bouton3">Voir</a>
+            </div>
+            <div class="minibloc">
+                <p>Un mini-jeu interactif en JavaScript<br> qui défie votre logique.</p>
+                <p class="code">#html,#css,#js</p>
+                <a href="projet3.html" class="bouton3">Voir</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Section Mes compétences -->
+    <section id="competences" class="comp-class">
+        <h4>Mes compétences</h4>
+        <div class="section4">
+            <div class="digibloc">
+                <p class="digititre">Soft Skills</p>
+                <div class="compliste1">
+                    <p>Gestion de projet</p>
+                    <div class="jauge"><span class="barre1"></span></div>
+                    <p>Sens du détail</p>
+                    <div class="jauge"><span class="barre2"></span></div>
+                    <p>Adaptabilité</p>
+                    <div class="jauge"><span class="barre3"></span></div>
+                </div>
+            </div>
+            <div class="digibloc">
+                <p class="digititre">Hard Skills</p>
+                <div class="compliste2">
+                    <p>HTML</p>
+                    <div class="jauge"><span class="barre4"></span></div>
+                    <p>CSS</p>
+                    <div class="jauge"><span class="barre5"></span></div>
+                    <p>JavaScript</p>
+                    <div class="jauge"><span class="barre6"></span></div>
+                    <p>VS Code</p>
+                    <div class="jauge"><span class="barre7"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Formulaire de contact -->
+    <section id="contact" class="contact_class">
+        <p class="contact_title">Vous avez un <span class="tete">projet en tête ?</span></p>
+        <p class="hesit">N’hésitez pas à me <span class="contacter">contacter</span></p>
+        <form>
+            <div class="ligne1">
+                <p class="ct_prenom">Votre prénom</p>
+                <p class="ct_nom">Votre nom</p><br>
+            </div>
+            <div class="ligne2">
+                <input type="text" id="prenom_form" placeholder="John">
+                <input type="text" id="nom_form" placeholder="Doe"><br>
+            </div>
+            <div class="ligne3">
+                <div class="bloc-sujet">
+                    <p class="sujet">Votre sujet</p>
+                    <select id="subject">
+                        <option value="dev-web" selected>Développement d'application web</option>
+                        <option value="dev-vitrine">Développement d'un site vitrine</option>
+                        <option value="refonte">Refonte et/ou modification d'un site</option>
+                        <option value="pilotage">Pilotage d'un projet web</option>
+                        <option value="autres">Autres demande</option>
+                    </select><br>
+                    <textarea id="message" placeholder="Ecrivez votre message ici"></textarea>
+                    <a href="#contact" class="bouton4" onclick="envoyerMessage();">Envoyer</a>
+                </div>
+            </div>
+        </form>
+    </section>
+    <script src="js.js"></script>
+    <footer>
+        <ul class="fin">
+            <li>Designed by <span class="name">Hoby Nantenaina Nadine</span> with HTML CSS JS</li>
+            <li class="end">Tous droits réservés - 2025</li>
+        </ul>
+    </footer>
+</body>
+
+</html>

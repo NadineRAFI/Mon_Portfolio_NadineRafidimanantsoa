@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Morpion</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+    }
+    h1 {
+      color: #333;
+    }
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+      margin: 20px auto;
+      width: max-content;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      background: white;
+      border: 2px solid #333;
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .cell.taken {
+      cursor: not-allowed;
+    }
+    #status {
+      font-size: 1.2rem;
+      margin: 15px 0;
+      font-weight: bold;
+    }
+    #scores {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    #resetBtn {
+      display: none;
+      padding: 10px 15px;
+      margin-top: 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Morpion</h1>
+  <div id="scores">Score - Toi (X): 0 | Ordinateur (O): 0</div>
+  <div id="status">Ton tour (X)</div>
+  <div class="board" id="board"></div>
+  <button id="resetBtn" onclick="resetAll()">Rejouer la partie</button>
+
+  <script>
+    const board = document.getElementById("board");
+    const statusText = document.getElementById("status");
+    const scoreText = document.getElementById("scores");
+    const resetBtn = document.getElementById("resetBtn");
+
+    let currentPlayer = "X"; // joueur humain
+    let gameActive = true;
+    let cells = ["", "", "", "", "", "", "", "", ""];
+    let scorePlayer = 0;
+    let scoreComputer = 0;
+
+    // créer les 9 cases
+    for (let i = 0; i < 9; i++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.dataset.index = i;
+      cell.addEventListener("click", handlePlayerClick);
+      board.appendChild(cell);
+    }
+
+    function handlePlayerClick(e) {
+      const index = e.target.dataset.index;
+      if (cells[index] !== "" || !gameActive || currentPlayer !== "X") return;
+
+      playMove(index, "X");
+
+      if (checkEndGame("X")) return;
+
+      // L’ordi joue après un petit délai
+      setTimeout(computerMove, 500);
+    }
+
+    function playMove(index, player) {
+      cells[index] = player;
+      const cell = document.querySelector(`[data-index='${index}']`);
+      cell.textContent = player;
+      cell.classList.add("taken");
+    }
+
+    function computerMove() {
+      if (!gameActive) return;
+      const emptyCells = cells.map((val, idx) => val === "" ? idx : null).filter(v => v !== null);
+      if (emptyCells.length === 0) return;
+
+      const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+      playMove(randomIndex, "O");
+
+      checkEndGame("O");
+    }
+
+    function checkEndGame(player) {
+      const winPatterns = [
+        [0,1,2], [3,4,5], [6,7,8], // lignes
+        [0,3,6], [1,4,7], [2,5,8], // colonnes
+        [0,4,8], [2,4,6]           // diagonales
+      ];
+
+      if (winPatterns.some(pattern => pattern.every(index => cells[index] === player))) {
+        if (player === "X") {
+          scorePlayer++;
+          statusText.textContent = "🎉 Tu as gagné cette manche !";
+        } else {
+          scoreComputer++;
+          statusText.textContent = "😢 L'ordinateur a gagné cette manche.";
+        }
+        updateScores();
+        checkFinalWinner();
+        if (gameActive) setTimeout(resetBoard, 1000);
+        return true;
+      }
+
+      if (!cells.includes("")) {
+        statusText.textContent = "🤝 Match nul !";
+        if (gameActive) setTimeout(resetBoard, 1000);
+        return true;
+      }
+
+      statusText.textContent = player === "X" ? "Tour de l'ordinateur (O)" : "Ton tour (X)";
+      currentPlayer = player === "X" ? "O" : "X";
+      return false;
+    }
+
+    function updateScores() {
+      scoreText.textContent = `Score - Toi (X): ${scorePlayer} | Ordinateur (O): ${scoreComputer}`;
+    }
+
+    function checkFinalWinner() {
+      if (scorePlayer === 3) {
+        statusText.textContent = "🏆 Bravo ! Tu as gagné la partie 🎉";
+        gameActive = false;
+        resetBtn.style.display = "inline-block"; // afficher bouton rejouer
+      } else if (scoreComputer === 3) {
+        statusText.textContent = "💀 Dommage ! L'ordinateur a gagné la partie.";
+        gameActive = false;
+        resetBtn.style.display = "inline-block"; // afficher bouton rejouer
+      }
+    }
+
+    function resetBoard() {
+      cells = ["", "", "", "", "", "", "", "", ""];
+      currentPlayer = "X";
+      gameActive = true;
+      statusText.textContent = "Ton tour (X)";
+      document.querySelectorAll(".cell").forEach(cell => {
+        cell.textContent = "";
+        cell.classList.remove("taken");
+      });
+    }
+
+    function resetAll() {
+      scorePlayer = 0;
+      scoreComputer = 0;
+      updateScores();
+      resetBoard();
+      resetBtn.style.display = "none"; // cacher bouton
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Pierre Papier Ciseaux</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align:center; background:#111; color:white; }
+    h2 { margin-top:20px; }
+    .choices { margin:20px; }
+    button {
+      padding:10px 20px;
+      margin:10px;
+      font-size:18px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      background:#00d1c7; color:white;
+    }
+    button:hover { background:#009f94; }
+    #result { margin-top:20px; font-size:22px; font-weight:bold; color:#ffd700; }
+    #score { margin-top:20px; font-size:20px; color:#00d1c7; }
+    #finalMessage { margin-top:25px; font-size:24px; font-weight:bold; }
+    #resetBtn { 
+      display:none; 
+      margin-top:20px; 
+      padding:10px 20px; 
+      font-size:18px; 
+      border:none; 
+      border-radius:8px; 
+      background:#ff8800; 
+      color:white; 
+      cursor:pointer;
+    }
+    #resetBtn:hover { background:#ff5500; }
+  </style>
+</head>
+<body>
+
+<h2>✊✋✌️ Pierre - Papier - Ciseaux</h2>
+<p>Choisis ton coup :</p>
+
+<div class="choices">
+  <button onclick="play('pierre')">✊ Pierre</button>
+  <button onclick="play('papier')">✋ Papier</button>
+  <button onclick="play('ciseaux')">✌️ Ciseaux</button>
+</div>
+
+<p id="result"></p>
+<p id="score">👤 Joueur : 0 | 🤖 Ordi : 0</p>
+<p id="finalMessage"></p>
+<button id="resetBtn">🔄 Rejouer</button>
+
+<script>
+  let userScore = 0;
+  let computerScore = 0;
+  let gameOver = false;
+
+  function play(userChoice){
+    if(gameOver) return; // Bloque si le jeu est fini
+
+    const choices = ["pierre","papier","ciseaux"];
+    const computerChoice = choices[Math.floor(Math.random()*3)];
+    let result = "";
+
+    if(userChoice === computerChoice){
+      result = "Égalité ! 🤝 (Ordi : " + computerChoice + ")";
+    } else if(
+      (userChoice==="pierre" && computerChoice==="ciseaux") ||
+      (userChoice==="papier" && computerChoice==="pierre") ||
+      (userChoice==="ciseaux" && computerChoice==="papier")
+    ){
+      result = "🎉 Tu gagnes cette manche ! (Ordi : " + computerChoice + ")";
+      userScore++;
+    } else {
+      result = "😢 Tu perds cette manche... (Ordi : " + computerChoice + ")";
+      computerScore++;
+    }
+
+    document.getElementById("result").textContent = result;
+    document.getElementById("score").textContent = "👤 Joueur : " + userScore + " | 🤖 Ordi : " + computerScore;
+
+    // Vérifier la fin de partie
+    if(userScore === 5 || computerScore === 5){
+      gameOver = true;
+      if(userScore === 5){
+        document.getElementById("finalMessage").textContent = "🎉 Bravo, tu as gagné la partie !";
+        document.getElementById("finalMessage").style.color = "#00ff88";
+      } else {
+        document.getElementById("finalMessage").textContent = "😢 Dommage, tu as perdu la partie...";
+        document.getElementById("finalMessage").style.color = "#ff5555";
+      }
+      document.getElementById("resetBtn").style.display = "inline-block"; // 👈 affiche bouton reset
+    }
+  }
+
+  // Fonction reset
+  document.getElementById("resetBtn").onclick = () => {
+    userScore = 0;
+    computerScore = 0;
+    gameOver = false;
+    document.getElementById("result").textContent = "";
+    document.getElementById("score").textContent = "👤 Joueur : 0 | 🤖 Ordi : 0";
+    document.getElementById("finalMessage").textContent = "";
+    document.getElementById("resetBtn").style.display = "none";
+  };
+</script>
+
+</body>
+</html>
